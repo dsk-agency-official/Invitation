@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Karthik &amp; Ananya – Wedding Invitation</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Rajdhani:wght@400;600&family=Noto+Serif+Tamil:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   1. COLOURS & BASICS
+   ========================================================= */
+:root{
+  --navy:#060b24; --cyan:#3df2ff; --gold:#ffc861; --pink:#ff4fa3; --violet:#8a5cff; --text:#e8eeff;
+}
+@property --a{syntax:"<angle>";initial-value:0deg;inherits:false}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-snap-type:y proximity;scroll-behavior:smooth}
+body{font-family:"Rajdhani",sans-serif;font-size:1.2rem;color:var(--text);background:var(--navy);overflow-x:hidden}
+h1,h2,h3{font-family:"Playfair Display",serif;font-weight:500}
+.tech{font-family:"Orbitron",sans-serif}
+.tamil{font-family:"Noto Serif Tamil",serif;letter-spacing:0!important;text-transform:none!important}
+.page{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;padding:10vh 1.4rem 12vh;overflow:hidden;scroll-snap-align:start}
+.box{position:relative;z-index:5;width:100%;max-width:36rem}
+.small{font-family:"Orbitron",sans-serif;letter-spacing:.3em;text-transform:uppercase;font-size:.7rem;color:var(--cyan);margin-bottom:1rem;
+       text-shadow:0 0 10px var(--cyan)}
+.title{font-size:clamp(2.1rem,8vw,3.6rem);line-height:1.1;color:#fff}
+.glow-text{background:linear-gradient(90deg,var(--gold),#fff,var(--cyan),var(--gold));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;
+           color:transparent;animation:flow 7s linear infinite;filter:drop-shadow(0 0 14px rgba(61,242,255,.35))}
+@keyframes flow{to{background-position:300% 0}}
+p{line-height:1.5}
+
+/* background photo layer (with slow zoom) + dark overlay */
+.bg{position:absolute;inset:0;z-index:0;animation:kb 22s ease-in-out infinite alternate}
+.bg::before{content:"";position:absolute;inset:-6%;background:var(--img) center/cover;filter:blur(16px) brightness(.55)}
+.bg::after{content:"";position:absolute;inset:0;background:var(--img) center var(--py,20%)/contain no-repeat}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.12)}}
+.shade{position:absolute;inset:0;z-index:1}
+/* futuristic grid + scan line */
+.grid{position:absolute;inset:0;z-index:1;opacity:.35;pointer-events:none;
+      background:linear-gradient(rgba(61,242,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(61,242,255,.12) 1px,transparent 1px);background-size:44px 44px}
+.scan{position:absolute;left:0;right:0;height:120px;z-index:2;pointer-events:none;background:linear-gradient(transparent,rgba(61,242,255,.12),transparent);animation:scan 6s linear infinite}
+@keyframes scan{from{top:-120px}to{top:100%}}
+/* HUD corners */
+.hud i{position:absolute;width:26px;height:26px;border:2px solid var(--cyan);z-index:6;opacity:.8;box-shadow:0 0 10px var(--cyan)}
+.hud i:nth-child(1){top:14px;left:14px;border-right:none;border-bottom:none}
+.hud i:nth-child(2){top:14px;right:14px;border-left:none;border-bottom:none}
+.hud i:nth-child(3){bottom:14px;left:14px;border-right:none;border-top:none}
+.hud i:nth-child(4){bottom:14px;right:14px;border-left:none;border-top:none}
+
+/* glass panel */
+.glass{position:relative;background:rgba(8,14,48,.55);border:1px solid rgba(61,242,255,.5);border-radius:18px;padding:1.4rem 1.2rem;
+       backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 0 28px rgba(61,242,255,.18),inset 0 0 24px rgba(138,92,255,.12)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(40px);filter:blur(6px);transition:all .9s ease;transition-delay:calc(var(--i,0) * .15s)}
+.page.in .rv{opacity:1;transform:none;filter:none}
+
+/* =========================================================
+   2. FIXED UI
+   ========================================================= */
+#fx{position:fixed;inset:0;z-index:3;pointer-events:none}
+#cursor{position:fixed;width:260px;height:260px;border-radius:50%;pointer-events:none;z-index:4;translate:-50% -50%;
+        background:radial-gradient(circle,rgba(61,242,255,.16),transparent 65%);display:none}
+#progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:100;background:linear-gradient(90deg,var(--cyan),var(--pink),var(--gold));box-shadow:0 0 12px var(--cyan)}
+#dots{position:fixed;right:10px;top:50%;translate:0 -50%;z-index:100;display:flex;flex-direction:column;gap:10px}
+#dots button{width:11px;height:11px;border-radius:50%;border:2px solid var(--cyan);background:transparent;cursor:pointer;transition:.3s;padding:0}
+#dots button.on{background:var(--cyan);box-shadow:0 0 12px var(--cyan);transform:scale(1.35)}
+.controls{position:fixed;left:14px;bottom:16px;z-index:100;display:flex;gap:10px}
+.ctrl{width:48px;height:48px;border-radius:50%;border:1px solid var(--cyan);background:rgba(6,11,36,.8);color:var(--cyan);font-size:1.15rem;cursor:pointer;
+      box-shadow:0 0 14px rgba(61,242,255,.5);transition:.3s;backdrop-filter:blur(6px)}
+.ctrl:hover{transform:scale(1.12);background:var(--cyan);color:#000}
+.ctrl.on{background:var(--cyan);color:#000;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 12px rgba(61,242,255,.2)}}
+.down{position:absolute;bottom:2.2vh;left:50%;translate:-50% 0;z-index:20;width:34px;height:42px;cursor:pointer;background:none;border:none}
+.down i{position:absolute;left:50%;width:14px;height:14px;margin-left:-7px;border-right:3px solid var(--cyan);border-bottom:3px solid var(--cyan);rotate:45deg;
+        animation:chev 1.6s infinite;opacity:0;filter:drop-shadow(0 0 5px var(--cyan))}
+.down i:nth-child(1){top:2px}.down i:nth-child(2){top:14px;animation-delay:.25s}.down i:nth-child(3){top:26px;animation-delay:.5s}
+@keyframes chev{0%{opacity:0;transform:translate(0,-8px)}50%{opacity:1}100%{opacity:0;transform:translate(0,8px)}}
+
+/* =========================================================
+   3. PAGE 1  COVER  (temple photo)
+   ========================================================= */
+.p1 .bg{--img:url(./photos/ThiruchendurMurugan.png);--py:6%}
+.p1{justify-content:flex-end;padding-bottom:15vh}
+.p1 .shade{background:linear-gradient(rgba(6,11,36,.1),rgba(6,11,36,.15) 40%,rgba(6,11,36,.9) 70%)}
+.p1 .names{font-size:clamp(3.2rem,15vw,6.4rem);line-height:.95}
+.p1 .names em{display:block;font-size:.35em;margin:.15em 0;color:var(--gold);-webkit-text-fill-color:var(--gold)}
+.type{font-family:"Orbitron",sans-serif;color:var(--cyan);font-size:.72rem;letter-spacing:.2em;min-height:1.2rem;text-shadow:0 0 10px var(--cyan)}
+.type::after{content:"▌";animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.datechip{display:inline-block;margin-top:1.2rem;padding:.6rem 1.4rem;border:1px solid var(--gold);color:var(--gold);font-family:"Orbitron",sans-serif;
+          letter-spacing:.2em;font-size:.8rem;border-radius:99px;box-shadow:0 0 18px rgba(255,200,97,.35);background:rgba(6,11,36,.5)}
+
+/* =========================================================
+   4. PAGE 2  WEDDING INFORMATION
+   ========================================================= */
+.p2{background:radial-gradient(circle at 50% 0,#2a1b6e,#0a0f33 60%,#060b24)}
+.p2 .names{font-size:clamp(2.2rem,9vw,3.4rem)}
+.p2 .with{color:var(--pink);font-size:1.5rem;text-shadow:0 0 14px var(--pink)}
+.divider{width:160px;height:2px;margin:1.1rem auto;background:linear-gradient(90deg,transparent,var(--cyan),transparent);box-shadow:0 0 10px var(--cyan)}
+.when{display:flex;justify-content:center;gap:.8rem;flex-wrap:wrap;margin-top:1rem}
+.when div{border:1px solid var(--gold);border-radius:12px;padding:.6rem 1rem;background:rgba(255,200,97,.08)}
+.when b{display:block;font-family:"Orbitron",sans-serif;color:var(--gold);font-size:.95rem;font-weight:500}
+.when span{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:#aab6e8}
+
+/* =========================================================
+   5. PAGE 3  EVENTS CAROUSEL (tall temple photo)
+   ========================================================= */
+.p3 .bg{--img:url(./photos/temple-night.jpg);--py:center}
+.p3 .shade{background:linear-gradient(rgba(6,11,36,.55),rgba(6,11,36,.55) 40%,rgba(6,11,36,.9))}
+.viewport{overflow:hidden;border-radius:14px}
+.track{display:flex;transition:transform .7s cubic-bezier(.6,.05,.2,1)}
+.slide{min-width:100%}
+.pic{position:relative;aspect-ratio:4/4.3;border-radius:12px;overflow:hidden;background:#101540;border:1px solid rgba(255,200,97,.6)}
+.pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s}
+.pic::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 60%,rgba(6,11,36,.55));pointer-events:none}
+.slide h3{font-size:clamp(1.7rem,7vw,2.3rem);margin-top:.8rem;color:var(--gold);text-shadow:0 0 14px rgba(255,200,97,.5)}
+.slide p{font-size:1.05rem;color:#d7e0ff}
+.arrow{position:absolute;top:36%;width:42px;height:42px;border-radius:50%;border:1px solid var(--cyan);background:rgba(6,11,36,.7);color:var(--cyan);font-size:1.5rem;
+       cursor:pointer;z-index:5;transition:.3s;box-shadow:0 0 12px rgba(61,242,255,.5)}
+.arrow:hover{background:var(--cyan);color:#000}
+.arrow.prev{left:4px}.arrow.next{right:4px}
+.dotsrow{display:flex;gap:8px;justify-content:center;margin:.8rem 0 0}
+.dotsrow i{width:9px;height:9px;border-radius:50%;background:#3b4378;transition:.3s;cursor:pointer}
+.dotsrow i.on{background:var(--cyan);width:26px;border-radius:6px;box-shadow:0 0 10px var(--cyan)}
+.ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,#2a1b6e,#7a1f5e)}
+
+/* =========================================================
+   6. PAGE 4  THE COUPLE (holographic frame)
+   ========================================================= */
+.p4{background:radial-gradient(circle at 50% 40%,#3a1a7a,#10123a 60%,#060b24)}
+.aurora{position:absolute;inset:-20%;z-index:0;background:conic-gradient(from var(--a),rgba(61,242,255,.28),rgba(255,79,163,.28),rgba(255,200,97,.28),rgba(61,242,255,.28));
+        filter:blur(80px);animation:spin 14s linear infinite}
+@keyframes spin{to{--a:360deg}}
+.holo{position:relative;z-index:5;width:min(72vw,320px);margin:1.4rem auto 0;padding:5px;border-radius:24px;
+      background:conic-gradient(from var(--a),var(--cyan),var(--pink),var(--gold),var(--cyan));animation:spin 6s linear infinite;box-shadow:0 0 50px rgba(61,242,255,.5)}
+.holo .inner{aspect-ratio:497/616;border-radius:20px;overflow:hidden;background:#101540}
+.holo img{width:100%;height:100%;object-fit:cover;display:block}
+.holo::after{content:"";position:absolute;inset:5px;border-radius:20px;pointer-events:none;
+             background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.28) 50%,transparent 60%);background-size:250% 100%;animation:shine 4s infinite}
+@keyframes shine{from{background-position:150% 0}to{background-position:-100% 0}}
+.orbit{position:absolute;z-index:4;font-size:1.6rem;animation:orbit 9s linear infinite}
+@keyframes orbit{from{transform:rotate(0) translateX(150px) rotate(0)}to{transform:rotate(360deg) translateX(150px) rotate(-360deg)}}
+.orbitwrap{position:absolute;left:50%;top:56%;width:0;height:0;z-index:4}
+
+/* =========================================================
+   7. PAGE 5  MEET THE BRIDE & GROOM
+   ========================================================= */
+.p5{background:radial-gradient(circle at 50% 100%,#6b1a5c,#14123f 55%,#060b24)}
+.flips{display:flex;gap:1rem;justify-content:center;margin-top:1.4rem;flex-wrap:wrap}
+.flip{width:min(40vw,180px);aspect-ratio:3/4.4;perspective:900px;cursor:pointer}
+.flip-in{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .9s}
+.flip.on .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;overflow:hidden;border:1px solid var(--cyan);
+      background:rgba(8,14,48,.9);box-shadow:0 0 24px rgba(61,242,255,.35)}
+.face.front .pic{height:80%;border:none;border-radius:0;aspect-ratio:auto}
+.face.front h3{font-size:1.2rem;margin-top:.4rem;color:#fff}
+.face.front small{color:var(--gold);font-family:"Orbitron",sans-serif;letter-spacing:.2em;text-transform:uppercase;font-size:.55rem}
+.face.back{transform:rotateY(180deg);display:flex;flex-direction:column;justify-content:center;padding:.9rem;font-size:.98rem;
+           background:linear-gradient(160deg,rgba(61,242,255,.2),rgba(138,92,255,.35)),#0a0f33;color:#fff}
+.face.back h3{color:var(--gold);font-size:1.3rem;margin-bottom:.4rem}
+.hint{margin-top:1.2rem;font-size:.85rem;color:var(--cyan);font-family:"Orbitron",sans-serif;letter-spacing:.1em;animation:blink 1.8s infinite}
+
+/* =========================================================
+   8. PAGE 6  INFORMATION + LINKS
+   ========================================================= */
+.p6{background:radial-gradient(circle at 80% 0,#0f4c6e,#0c1140 55%,#060b24)}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1.2rem}
+.info div{padding:1rem .7rem}
+.info span{font-size:1.7rem}
+.info b{display:block;font-family:"Orbitron",sans-serif;color:var(--gold);font-weight:500;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;margin:.3rem 0}
+.info p{font-size:.95rem;color:#d7e0ff}
+.btns{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;margin-top:1.3rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.3rem;border-radius:99px;color:#fff;text-decoration:none;font-weight:600;letter-spacing:.08em;font-size:.95rem;
+     transition:.3s;border:1px solid #fff4}
+.btn:hover{transform:translateY(-4px) scale(1.05)}
+.btn.wa{background:#1fae56;box-shadow:0 0 20px rgba(37,211,102,.6)}
+.btn.ig{background:linear-gradient(45deg,#f9a825,#e1306c,#833ab4);box-shadow:0 0 20px rgba(225,48,108,.6)}
+.btn.map{background:#2a5fe0;box-shadow:0 0 20px rgba(61,130,255,.6)}
+
+/* =========================================================
+   9. PAGE 7  COUNTDOWN (neon rings)
+   ========================================================= */
+.p7{background:radial-gradient(circle at 50% 30%,#3a1260,#0d0f38 60%,#060b24)}
+.rings{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:21rem;margin:1.6rem auto 0}
+.ringbox{position:relative;aspect-ratio:1}
+.ringbox svg{width:100%;height:100%;rotate:-90deg}
+.ringbox circle{fill:none;stroke-width:5}
+.ringbox .bgc{stroke:rgba(255,255,255,.12)}
+.ringbox .fg{stroke:var(--cyan);stroke-linecap:round;stroke-dasharray:264;stroke-dashoffset:264;filter:drop-shadow(0 0 5px var(--cyan));transition:stroke-dashoffset .6s}
+.ringbox:nth-child(2) .fg{stroke:var(--pink);filter:drop-shadow(0 0 5px var(--pink))}
+.ringbox:nth-child(3) .fg{stroke:var(--gold);filter:drop-shadow(0 0 5px var(--gold))}
+.ringbox:nth-child(4) .fg{stroke:var(--violet);filter:drop-shadow(0 0 5px var(--violet))}
+.ringbox div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ringbox b{font-family:"Orbitron",sans-serif;font-size:clamp(1.8rem,8vw,2.4rem);font-weight:700;color:#fff;text-shadow:0 0 14px currentColor}
+.ringbox b.tick{animation:tick .4s}
+@keyframes tick{50%{transform:scale(1.25);color:var(--cyan)}}
+.ringbox span{font-family:"Orbitron",sans-serif;letter-spacing:.25em;font-size:.55rem;text-transform:uppercase;color:#aab6e8}
+.stars i{position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;animation:twinkle 3s infinite}
+@keyframes twinkle{50%{opacity:.1}}
+
+/* =========================================================
+   10. PAGE 8  FINAL : NIGHT TEMPLE (tap -> gallery)
+   ========================================================= */
+.p8 .bg{--img:url(./photos/temple-night.jpg);--py:36%}
+.p8 .shade{background:linear-gradient(rgba(6,11,36,.55),rgba(6,11,36,0) 25%,rgba(6,11,36,0) 55%,rgba(6,11,36,.9) 85%)}
+.p8{justify-content:space-between}
+.tapzone{position:relative;z-index:6;cursor:pointer;margin:auto auto 6vh;padding:1rem 2rem}
+.tapbtn{display:inline-block;padding:.9rem 1.8rem;border-radius:99px;font-family:"Orbitron",sans-serif;letter-spacing:.2em;font-size:.8rem;color:#000;
+        background:var(--cyan);box-shadow:0 0 0 0 rgba(61,242,255,.8);animation:ping 1.8s infinite;font-weight:700}
+@keyframes ping{70%{box-shadow:0 0 0 24px rgba(61,242,255,0)}100%{box-shadow:0 0 0 0 rgba(61,242,255,0)}}
+.p8 .tm{color:#ffe9c4;text-shadow:0 2px 10px #000}
+
+/* gallery pop-up */
+#gallery{position:fixed;inset:0;z-index:300;background:rgba(3,5,20,.94);display:none;align-items:center;justify-content:center;flex-direction:column;padding:1rem;backdrop-filter:blur(8px)}
+#gallery.open{display:flex;animation:fadeIn .4s}
+@keyframes fadeIn{from{opacity:0}}
+.gframe{position:relative;width:min(88vw,380px);padding:6px;border-radius:22px;background:conic-gradient(from var(--a),var(--cyan),var(--pink),var(--gold),var(--cyan));
+        animation:spin 6s linear infinite,pop .5s;box-shadow:0 0 50px rgba(61,242,255,.4)}
+@keyframes pop{from{transform:scale(.6) rotate(-6deg);opacity:0}}
+.gframe .in{background:#0a0f33;border-radius:18px;padding:8px;position:relative}
+.gframe .gpic{aspect-ratio:4/5;border-radius:12px;overflow:hidden;background:#101540}
+.gframe .gpic img{width:100%;height:100%;object-fit:cover;display:block}
+.gframe p{margin:.6rem 0 .2rem;color:var(--gold);font-family:"Playfair Display",serif;font-size:1.25rem}
+#close{position:absolute;top:14px;right:18px;font-size:2.4rem;color:#fff;background:none;border:none;cursor:pointer}
+.gthumbs{display:flex;gap:8px;margin-top:1.2rem}
+.gthumbs i{width:10px;height:10px;border-radius:50%;background:#3b4378;cursor:pointer;transition:.3s}
+.gthumbs i.on{background:var(--cyan);transform:scale(1.4);box-shadow:0 0 10px var(--cyan)}
+.burst{position:fixed;pointer-events:none;z-index:400;font-size:1.5rem;animation:burst 1.3s ease-out forwards}
+@keyframes burst{to{transform:translate(var(--x),var(--y)) rotate(360deg);opacity:0}}
+@media (hover:hover){#cursor{display:block}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<canvas id="fx"></canvas>
+<div id="cursor"></div>
+<div id="progress"></div>
+<div id="dots"></div>
+<div class="controls">
+  <button class="ctrl" id="tourBtn" title="Auto scroll">▶</button>
+  <button class="ctrl" id="musicBtn" title="Music">♪</button>
+</div>
+<audio id="music" loop src="./tamil_nathasvaram.mp3.mpeg"></audio>
+
+<!-- ===================== PAGE 1 : COVER ===================== -->
+<section class="page p1 in">
+  <div class="bg"></div><div class="shade"></div><div class="scan"></div><div class="hud"><i></i><i></i><i></i><i></i></div>
+  <div class="box">
+    <p class="type" id="typeLine"></p>
+    <p class="small tamil rv" style="--i:1;margin-top:.8rem">திருமண அழைப்பிதழ்</p>
+    <h1 class="names glow-text rv" style="--i:2"><span data-f="groom"></span><em>&amp;</em><span data-f="bride"></span></h1>
+    <span class="datechip rv" style="--i:3" data-f="dateText"></span>
+  </div>
+  <button class="down"><i></i><i></i><i></i></button>
+</section>
+
+<!-- ===================== PAGE 2 : WEDDING INFORMATION ===================== -->
+<section class="page p2">
+  <div class="grid"></div><div class="hud"><i></i><i></i><i></i><i></i></div>
+  <div class="box glass">
+    <p class="small rv" style="--i:0">// With the blessings of the Almighty</p>
+    <p class="rv" style="--i:1">Mr. <b data-f="groomFather"></b> &amp; Mrs. <b data-f="groomMother"></b><br>request the pleasure of your company at the wedding of their son</p>
+    <h2 class="names glow-text rv" style="--i:2"><span data-f="groom"></span></h2>
+    <p class="with rv" style="--i:3">with</p>
+    <h2 class="names glow-text rv" style="--i:3"><span data-f="bride"></span></h2>
+    <p class="rv" style="--i:4">daughter of Mr. <b data-f="brideFather"></b> &amp; Mrs. <b data-f="brideMother"></b></p>
+    <div class="divider rv" style="--i:5"></div>
+    <div class="when rv" style="--i:5">
+      <div><span>Date</span><b data-f="dateText"></b></div>
+      <div><span>Muhurtham</span><b data-f="muhurtham"></b></div>
+    </div>
+    <p class="rv" style="--i:6;margin-top:1rem;font-size:1.05rem">📍 <span data-f="venue"></span></p>
+  </div>
+  <button class="down"><i></i><i></i><i></i></button>
+</section>
+
+<!-- ===================== PAGE 3 : EVENTS (temple photo background) ===================== -->
+<section class="page p3">
+  <div class="bg"></div><div class="shade"></div><div class="scan"></div><div class="hud"><i></i><i></i><i></i><i></i></div>
+  <div class="box">
+    <p class="small rv" style="--i:0">// On the following events</p>
+    <div class="glass rv" style="--i:1" id="evCard">
+      <div class="viewport" id="evView"><div class="track" id="evTrack"></div></div>
+      <div class="dotsrow" id="evDots"></div>
+    </div>
+  </div>
+  <button class="down"><i></i><i></i><i></i></button>
+</section>
+
+<!-- ===================== PAGE 4 : THE COUPLE ===================== -->
+<section class="page p4">
+  <div class="aurora"></div><div class="grid"></div><div class="hud"><i></i><i></i><i></i><i></i></div>
+  <div class="orbitwrap"><span class="orbit">🌸</span><span class="orbit" style="animation-delay:-3s">🌼</span><span class="orbit" style="animation-delay:-6s">🌺</span></div>
+  <div class="box">
+    <p class="small rv" style="--i:0">// Two souls, one journey</p>
+    <h2 class="title glow-text rv" style="--i:1"><span data-f="groom"></span> ❤ <span data-f="bride"></span></h2>
+    <div class="holo rv" style="--i:2"><div class="inner" id="holoPhoto"></div></div>
+  </div>
+  <button class="down"><i></i><i></i><i></i></button>
+</section>
+
+<!-- ===================== PAGE 5 : MEET THE BRIDE & GROOM ===================== -->
+<section class="page p5">
+  <div class="grid"></div><div class="hud"><i></i><i></i><i></i><i></i></div>
+  <div class="box">
+    <p class="small rv" style="--i:0">// Meet the</p>
+    <h2 class="title glow-text rv" style="--i:1">Bride &amp; Groom</h2>
+    <div class="flips rv" style="--i:2" id="flips"></div>
+    <p class="hint rv" style="--i:3">▸ TAP A CARD TO KNOW MORE</p>
+  </div>
+  <button class="down"><i></i><i></i><i></i></button>
+</section>
+
+<!-- ===================== PAGE 6 : INFORMATION ===================== -->
+<section class="page p6">
+  <div class="grid"></div><div class="hud"><i></i><i></i><i></i><i></i></div>
+  <div class="box">
+    <p class="small rv" style="--i:0">// Good to know</p>
+    <h2 class="title glow-text rv" style="--i:1">Wedding Information</h2>
+    <div class="info rv" style="--i:2">
+      <div class="glass"><span>📍</span><b>Venue</b><p data-f="venue"></p></div>
+      <div class="glass"><span>👗</span><b>Dress code</b><p data-f="dress"></p></div>
+      <div class="glass"><span>🏨</span><b>Stay</b><p data-f="stay"></p></div>
+      <div class="glass"><span>🚗</span><b>Parking</b><p data-f="parking"></p></div>
+    </div>
+    <div class="btns rv" style="--i:3">
+      <a class="btn map" id="mapLink" target="_blank" rel="noopener">📍 Map</a>
+      <a class="btn wa"  id="waLink"  target="_blank" rel="noopener">💬 WhatsApp</a>
+      <a class="btn ig"  id="igLink"  target="_blank" rel="noopener">📸 Instagram</a>
+    </div>
+  </div>
+  <button class="down"><i></i><i></i><i></i></button>
+</section>
+
+<!-- ===================== PAGE 7 : COUNTDOWN ===================== -->
+<section class="page p7">
+  <div class="stars" id="stars"></div><div class="grid"></div><div class="hud"><i></i><i></i><i></i><i></i></div>
+  <div class="box">
+    <p class="small tamil rv" style="--i:0">திருமணத்திற்கு இன்னும்…</p>
+    <h2 class="title glow-text rv" style="--i:1">Counting the days</h2>
+    <p class="rv" style="--i:2;color:#c9d4ff">until we say “I do”</p>
+    <div class="rings rv" style="--i:3" id="rings"></div>
+  </div>
+  <button class="down"><i></i><i></i><i></i></button>
+</section>
+
+<!-- ===================== PAGE 8 : NIGHT TEMPLE ===================== -->
+<section class="page p8">
+  <div class="bg"></div><div class="shade"></div><div class="scan"></div><div class="hud"><i></i><i></i><i></i><i></i></div>
+  <div class="box">
+    <p class="small rv" style="--i:0">// Thanjavur · Brihadeeswara Temple</p>
+    <h2 class="title glow-text rv" style="--i:1">Our Moments</h2>
+  </div>
+  <div class="tapzone rv" style="--i:2" id="templeTap"><span class="tapbtn">TAP TO OPEN ❯</span></div>
+  <div class="box">
+    <p class="tm tamil rv" style="--i:3;font-size:1rem">கோவிலைத் தொடுங்கள் – எங்கள் புகைப்படங்களைப் பாருங்கள்</p>
+    <p class="tm rv" style="--i:4;margin-top:.5rem">With love, <b data-f="groom"></b> &amp; <b data-f="bride"></b> 💛</p>
+  </div>
+</section>
+
+<!-- ===================== GALLERY POP-UP ===================== -->
+<div id="gallery">
+  <button id="close">×</button>
+  <div class="gframe"><div class="in">
+    <button class="arrow prev" id="gPrev" style="top:42%">‹</button><button class="arrow next" id="gNext" style="top:42%">›</button>
+    <div class="gpic" id="gPic"></div>
+    <p id="gCap"></p>
+  </div></div>
+  <div class="gthumbs" id="gThumbs"></div>
+</div>
+
+<script>
+/* =========================================================
+   A.  EDIT YOUR DETAILS HERE  (only this block needs changing)
+   ========================================================= */
+const W = {
+  groom: "Karthik",            bride: "Ananya",
+  groomFather: "Rahul",    groomMother: "Lakshmi",
+  brideFather: "Subramanian",  brideMother: "Meenakshi",
+  dateText: "14 FEB 2027",
+  muhurtham: "7:00 – 9:00 AM",
+  date: "2027-02-14T07:00:00+05:30",         // used by the countdown
+  venue: "Sri Meenakshi Kalyana Mandapam, Mylapore, Chennai",
+  mapLink: "https://maps.google.com/?q=Mylapore+Chennai",
+  whatsapp: "919344040239",                  // country code + number, no + sign
+  instagram: "https://www.instagram.com/its_me_lovely_abinesh_.r/",
+  dress: "Traditional – silk saree & veshti",
+  stay: "Rooms booked at Hotel Grand, 1 km from venue",
+  parking: "Free parking inside the mandapam"
+};
+/* every couple picture uses photos/couple.jpg.
+   x,y = which part of the photo to show (0–100 %),  s = zoom.  Change them to show different crops, or put different files. */
+const COUPLE = "./photos/couple.jpg";
+const EVENTS = [
+  { title: "Mehendi Afternoon", when: "12 Feb 2027 · 4:00 PM", where: "Bride's home, Velachery",   img: COUPLE, x: 60, y: 30, s: 1.5 },
+  { title: "Sangeet Evening",   when: "12 Feb 2027 · 7:00 PM", where: "Hotel Grand Ballroom",      img: COUPLE, x: 50, y: 45, s: 1.15 },
+  { title: "Muhurtham",         when: "14 Feb 2027 · 7:00 AM", where: "Mylapore Kalyana Mandapam", img: COUPLE, x: 50, y: 70, s: 1.0 },
+  { title: "Reception",         when: "14 Feb 2027 · 7:00 PM", where: "Mylapore Kalyana Mandapam", img: COUPLE, x: 50, y: 25, s: 1.8 }
+];
+const GALLERY = [
+  { img: COUPLE, cap: "Forever begins",    x: 50, y: 50, s: 1 },
+  { img: COUPLE, cap: "The day we met",    x: 66, y: 28, s: 1.9 },
+  { img: COUPLE, cap: "Our engagement",    x: 44, y: 20, s: 1.9 },
+  { img: COUPLE, cap: "Pre-wedding shoot", x: 50, y: 75, s: 1.3 },
+  { img: COUPLE, cap: "Temple blessings",  x: 55, y: 40, s: 1.4 }
+];
+const ABOUT = [
+  { name: W.bride, role: "The Bride", img: COUPLE, x: 76, y: 26, s: 3.2,
+    text: "Software engineer, classical dancer and filter-coffee lover. Her smile lights up every room." },
+  { name: W.groom, role: "The Groom", img: COUPLE, x: 32, y: 14, s: 3.2,
+    text: "Civil engineer, cricket fan and biryani expert. He makes everyone around him laugh." }
+];
+
+/* =========================================================
+   B.  FILL YOUR DETAILS INTO THE PAGE
+   ========================================================= */
+document.querySelectorAll("[data-f]").forEach(el => el.textContent = W[el.dataset.f]);
+document.getElementById("mapLink").href = W.mapLink;
+document.getElementById("igLink").href  = W.instagram;
+document.getElementById("waLink").href  = "https://wa.me/" + W.whatsapp + "?text=" + encodeURIComponent("Hi! I received the wedding invitation 🎉");
+
+/* photo helper : shows a crop of the photo (x, y, zoom) – or 💞 if the file is missing */
+function photo(o, alt) {
+  return `<img src="${o.img}" alt="${alt}" style="object-position:${o.x}% ${o.y}%;transform-origin:${o.x}% ${o.y}%;transform:scale(${o.s})"
+          onerror="this.outerHTML='<div class=ph>💞</div>'">`;
+}
+document.getElementById("holoPhoto").innerHTML = photo({ img: COUPLE, x: 50, y: 50, s: 1 }, "Couple");
+
+/* typing line on the cover */
+const line = "// SAVE THE DATE";
+let ti = 0;
+(function typeIt() { document.getElementById("typeLine").textContent = line.slice(0, ti++); if (ti <= line.length) setTimeout(typeIt, 55); })();
+
+/* =========================================================
+   C.  EVENTS CAROUSEL (arrows, dots, swipe, auto-play)
+   ========================================================= */
+const track = document.getElementById("evTrack"), dotsRow = document.getElementById("evDots");
+track.innerHTML = EVENTS.map(e => `
+  <div class="slide"><div class="pic">${photo(e, e.title)}</div>
+    <h3>${e.title}</h3><p>📅 ${e.when}</p><p>📍 ${e.where}</p></div>`).join("");
+dotsRow.innerHTML = EVENTS.map((_, i) => `<i data-i="${i}"></i>`).join("");
+document.getElementById("evCard").insertAdjacentHTML("afterbegin",
+  '<button class="arrow prev" id="evPrev">‹</button><button class="arrow next" id="evNext">›</button>');
+let ev = 0, evTimer;
+function showEvent(n) {
+  ev = (n + EVENTS.length) % EVENTS.length;
+  track.style.transform = `translateX(-${ev * 100}%)`;
+  dotsRow.querySelectorAll("i").forEach((d, i) => d.classList.toggle("on", i === ev));
+}
+function evAuto() { clearInterval(evTimer); evTimer = setInterval(() => showEvent(ev + 1), 4500); }
+document.getElementById("evPrev").onclick = () => { showEvent(ev - 1); evAuto(); };
+document.getElementById("evNext").onclick = () => { showEvent(ev + 1); evAuto(); };
+dotsRow.onclick = e => { if (e.target.dataset.i) { showEvent(+e.target.dataset.i); evAuto(); } };
+let sx = 0;
+const view = document.getElementById("evView");
+view.addEventListener("touchstart", e => sx = e.touches[0].clientX, { passive: true });
+view.addEventListener("touchend", e => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) { showEvent(ev + (dx < 0 ? 1 : -1)); evAuto(); } });
+showEvent(0); evAuto();
+
+/* =========================================================
+   D.  MEET THE BRIDE & GROOM (flip cards)
+   ========================================================= */
+document.getElementById("flips").innerHTML = ABOUT.map(a => `
+  <div class="flip"><div class="flip-in">
+    <div class="face front"><div class="pic">${photo(a, a.name)}</div><h3>${a.name}</h3><small>${a.role}</small></div>
+    <div class="face back"><h3>${a.name}</h3><p>${a.text}</p></div>
+  </div></div>`).join("");
+document.querySelectorAll(".flip").forEach(f => f.onclick = () => f.classList.toggle("on"));
+
+/* =========================================================
+   E.  COUNTDOWN (4 neon rings)
+   ========================================================= */
+const RINGS = [["cd", "Days", 365], ["ch", "Hours", 24], ["cm", "Minutes", 60], ["cs", "Seconds", 60]];
+document.getElementById("rings").innerHTML = RINGS.map(r => `
+  <div class="ringbox"><svg viewBox="0 0 100 100"><circle class="bgc" cx="50" cy="50" r="42"/><circle class="fg" id="${r[0]}r" cx="50" cy="50" r="42"/></svg>
+  <div><b id="${r[0]}">0</b><span>${r[1]}</span></div></div>`).join("");
+const target = new Date(W.date);
+let last = {};
+function setNum(id, val, max) {
+  const el = document.getElementById(id);
+  document.getElementById(id + "r").style.strokeDashoffset = 264 * (1 - Math.min(val / max, 1));
+  if (last[id] !== val) { el.textContent = val; el.classList.remove("tick"); void el.offsetWidth; el.classList.add("tick"); last[id] = val; }
+}
+function countdown() {
+  const d = Math.max(0, target - new Date());
+  setNum("cd", Math.floor(d / 864e5), 365);
+  setNum("ch", Math.floor(d % 864e5 / 36e5), 24);
+  setNum("cm", Math.floor(d % 36e5 / 6e4), 60);
+  setNum("cs", Math.floor(d % 6e4 / 1e3), 60);
+}
+countdown(); setInterval(countdown, 1000);
+(function () { let h = ""; for (let i = 0; i < 40; i++) h += `<i style="left:${Math.random() * 100}%;top:${Math.random() * 70}%;animation-delay:${Math.random() * 3}s"></i>`; document.getElementById("stars").innerHTML = h; })();
+
+/* =========================================================
+   F.  TEMPLE TAP  →  COUPLE GALLERY
+   ========================================================= */
+const gal = document.getElementById("gallery"), gPic = document.getElementById("gPic"), gCap = document.getElementById("gCap"), gTh = document.getElementById("gThumbs");
+let gi = 0;
+gTh.innerHTML = GALLERY.map((_, i) => `<i data-i="${i}"></i>`).join("");
+function showPhoto(n) {
+  gi = (n + GALLERY.length) % GALLERY.length;
+  gPic.innerHTML = photo(GALLERY[gi], GALLERY[gi].cap);
+  gCap.textContent = GALLERY[gi].cap;
+  gTh.querySelectorAll("i").forEach((d, i) => d.classList.toggle("on", i === gi));
+}
+function flowers(x, y) {
+  for (let i = 0; i < 12; i++) {
+    const f = document.createElement("span");
+    f.className = "burst"; f.textContent = ["🌸", "🌼", "🌺", "✨"][i % 4];
+    f.style.left = x + "px"; f.style.top = y + "px";
+    f.style.setProperty("--x", (Math.random() * 240 - 120) + "px");
+    f.style.setProperty("--y", (Math.random() * -240 - 20) + "px");
+    document.body.appendChild(f); setTimeout(() => f.remove(), 1300);
+  }
+}
+document.getElementById("templeTap").onclick = e => { flowers(e.clientX, e.clientY); showPhoto(0); gal.classList.add("open"); stopTour(); };
+document.getElementById("close").onclick = () => gal.classList.remove("open");
+document.getElementById("gPrev").onclick = () => showPhoto(gi - 1);
+document.getElementById("gNext").onclick = () => showPhoto(gi + 1);
+gTh.onclick = e => { if (e.target.dataset.i) showPhoto(+e.target.dataset.i); };
+gal.onclick = e => { if (e.target === gal) gal.classList.remove("open"); };
+addEventListener("keydown", e => {
+  if (!gal.classList.contains("open")) return;
+  if (e.key === "ArrowRight") showPhoto(gi + 1);
+  if (e.key === "ArrowLeft") showPhoto(gi - 1);
+  if (e.key === "Escape") gal.classList.remove("open");
+});
+
+/* =========================================================
+   G.  FUTURISTIC PARTICLES (golden sparks + cyan dots) & CURSOR GLOW
+   ========================================================= */
+const cv = document.getElementById("fx"), cx = cv.getContext("2d");
+function size() { cv.width = innerWidth; cv.height = innerHeight; }
+size(); addEventListener("resize", size);
+const sparks = Array.from({ length: 55 }, () => ({
+  x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: Math.random() * 2 + .6,
+  v: Math.random() * .6 + .2, c: Math.random() > .5 ? "255,200,97" : "61,242,255", p: Math.random() * 6
+}));
+(function loop() {
+  cx.clearRect(0, 0, cv.width, cv.height);
+  sparks.forEach(s => {
+    s.y -= s.v; s.x += Math.sin(s.p += .02) * .4;
+    if (s.y < -5) { s.y = cv.height + 5; s.x = Math.random() * cv.width; }
+    cx.fillStyle = `rgba(${s.c},.8)`; cx.shadowColor = `rgb(${s.c})`; cx.shadowBlur = 8;
+    cx.beginPath(); cx.arc(s.x, s.y, s.r, 0, 7); cx.fill();
+  });
+  requestAnimationFrame(loop);
+})();
+const cursor = document.getElementById("cursor");
+addEventListener("mousemove", e => { cursor.style.left = e.clientX + "px"; cursor.style.top = e.clientY + "px"; });
+
+/* =========================================================
+   H.  PAGES : reveal, side dots, progress bar, arrows, auto tour, music
+   ========================================================= */
+const pages = [...document.querySelectorAll(".page")];
+const dots = document.getElementById("dots");
+dots.innerHTML = pages.map((_, i) => `<button data-i="${i}" aria-label="page ${i + 1}"></button>`).join("");
+dots.onclick = e => { if (e.target.dataset.i) { stopTour(); pages[+e.target.dataset.i].scrollIntoView({ behavior: "smooth" }); } };
+const io = new IntersectionObserver(list => list.forEach(en => {
+  if (en.isIntersecting) {
+    en.target.classList.add("in");
+    dots.querySelectorAll("button").forEach((b, i) => b.classList.toggle("on", pages[i] === en.target));
+  }
+}), { threshold: 0.55 });
+pages.forEach(p => io.observe(p));
+addEventListener("scroll", () => {
+  document.getElementById("progress").style.width = scrollY / (document.documentElement.scrollHeight - innerHeight) * 100 + "%";
+});
+document.querySelectorAll(".down").forEach((b, i) => b.onclick = () => { stopTour(); pages[i + 1].scrollIntoView({ behavior: "smooth" }); });
+
+const tourBtn = document.getElementById("tourBtn");
+let tour = null;
+function currentPage() { return pages.findIndex(p => Math.abs(p.getBoundingClientRect().top) < innerHeight / 2); }
+function startTour() {
+  tourBtn.textContent = "❚❚"; tourBtn.classList.add("on");
+  tour = setInterval(() => {
+    const next = currentPage() + 1;
+    if (next >= pages.length) return stopTour();
+    pages[next].scrollIntoView({ behavior: "smooth" });
+  }, 5000);
+}
+function stopTour() { clearInterval(tour); tour = null; tourBtn.textContent = "▶"; tourBtn.classList.remove("on"); }
+tourBtn.onclick = () => tour ? stopTour() : startTour();
+["wheel", "touchmove"].forEach(ev => addEventListener(ev, () => tour && stopTour(), { passive: true }));
+
+const music = document.getElementById("music"), musicBtn = document.getElementById("musicBtn");
+musicBtn.onclick = () => {
+  if (music.paused) { music.play().then(() => musicBtn.classList.add("on")).catch(() => alert("Add a music.mp3 file in this folder")); }
+  else { music.pause(); musicBtn.classList.remove("on"); }
+};
+</script>
+</body>
+</html>
